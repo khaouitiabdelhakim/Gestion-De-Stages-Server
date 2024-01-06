@@ -71,9 +71,20 @@ async function deleteEntreprise(no_entreprise) {
   }
 }
 
+async function getAllEntreprises() {
+    const client = await pool.connect();
+    try {
+      const result = await client.query('SELECT * FROM public.entreprise');
+      return result.rows;
+    } finally {
+      client.release();
+    }
+  }
+
 module.exports = {
   createEntreprise,
   getEntrepriseById,
   updateEntreprise,
   deleteEntreprise,
+  getAllEntreprises
 };

@@ -51,9 +51,20 @@ async function deleteType(no_type) {
   }
 }
 
+async function getAllTypes() {
+    const client = await pool.connect();
+    try {
+      const result = await client.query('SELECT * FROM public.type');
+      return result.rows;
+    } finally {
+      client.release();
+    }
+  }
+
 module.exports = {
   createType,
   getTypeById,
   updateType,
   deleteType,
+  getAllTypes
 };

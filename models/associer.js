@@ -54,9 +54,20 @@ async function deleteAssocier(annee, no_type) {
   }
 }
 
+async function getAllAssocier() {
+    const client = await pool.connect();
+    try {
+      const result = await client.query('SELECT * FROM public.associer');
+      return result.rows;
+    } finally {
+      client.release();
+    }
+  }
+
 module.exports = {
   createAssocier,
   getAssocierById,
   updateAssocier,
   deleteAssocier,
+  getAllAssocier
 };

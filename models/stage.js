@@ -71,9 +71,20 @@ async function deleteStage(no_stage) {
   }
 }
 
+async function getAllStages() {
+    const client = await pool.connect();
+    try {
+      const result = await client.query('SELECT * FROM public.stage');
+      return result.rows;
+    } finally {
+      client.release();
+    }
+  }
+
 module.exports = {
   createStage,
   getStageById,
   updateStage,
   deleteStage,
+  getAllStages
 };

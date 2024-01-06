@@ -54,9 +54,20 @@ async function deletePromotion(annee_promotion) {
   }
 }
 
+async function getAllPromotions() {
+    const client = await pool.connect();
+    try {
+      const result = await client.query('SELECT * FROM public.promotion');
+      return result.rows;
+    } finally {
+      client.release();
+    }
+  }
+
 module.exports = {
   createPromotion,
   getPromotionById,
   updatePromotion,
   deletePromotion,
+  getAllPromotions
 };

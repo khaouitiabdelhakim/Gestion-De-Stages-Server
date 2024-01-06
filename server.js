@@ -1,5 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+const cors = require('cors'); // Import the cors middleware
 
 const etudiantModel = require('./models/etudiant');
 const professeurModel = require('./models/professeur');
@@ -17,8 +18,21 @@ const app = express();
 const port = 3000;
 
 app.use(bodyParser.json());
+app.use(cors()); // Enable CORS for all routes
 
 // Etudiant Endpoints
+
+// Get all Etudiants
+app.get('/etudiant', async (req, res) => {
+    try {
+        const allEtudiants = await etudiantModel.getAllEtudiants();
+        res.json(allEtudiants);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+});
+
 app.post('/etudiant', async (req, res) => {
     try {
         const createdEtudiant = await etudiantModel.createEtudiant(req.body);
@@ -71,7 +85,25 @@ app.delete('/etudiant/:no_etudiant', async (req, res) => {
     }
 });
 
+
+
+
+
+
+
+
 // Professeur Endpoints
+
+app.get('/professeur', async (req, res) => {
+    try {
+        const allProfesseurs = await professeurModel.getAllProfesseurs();
+        res.json(allProfesseurs);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+});
+
 app.post('/professeur', async (req, res) => {
     try {
         const createdProfesseur = await professeurModel.createProfesseur(req.body);
@@ -124,7 +156,27 @@ app.delete('/professeur/:no_professeur', async (req, res) => {
     }
 });
 
+
+
+
+
+
+
+
+
+
 // Encadrant Endpoints
+
+app.get('/encadrant', async (req, res) => {
+    try {
+        const allEncadrants = await encadrantModel.getAllEncadrants();
+        res.json(allEncadrants);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+});
+
 app.post('/encadrant', async (req, res) => {
     try {
         const createdEncadrant = await encadrantModel.createEncadrant(req.body);
@@ -177,7 +229,29 @@ app.delete('/encadrant/:no_encadrant', async (req, res) => {
     }
 });
 
+
+
+
+
+
+
+
+
+
+
+
 // Entreprise Endpoints
+
+app.get('/entreprise', async (req, res) => {
+    try {
+        const allEntreprises = await entrepriseModel.getAllEntreprises();
+        res.json(allEntreprises);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+});
+
 app.post('/entreprise', async (req, res) => {
     try {
         const createdEntreprise = await entrepriseModel.createEntreprise(req.body);
@@ -232,7 +306,25 @@ app.delete('/entreprise/:no_entreprise', async (req, res) => {
 
 
 
+
+
+
+
+
+
+
+
 // Type Endpoints
+app.get('/type', async (req, res) => {
+    try {
+        const allTypes = await typeModel.getAllTypes();
+        res.json(allTypes);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+});
+
 app.post('/type', async (req, res) => {
     try {
         const createdType = await typeModel.createType(req.body);
@@ -285,7 +377,25 @@ app.delete('/type/:no_type', async (req, res) => {
     }
 });
 
+
+
+
+
+
+
+
+
 // Stage Endpoints
+app.get('/stage', async (req, res) => {
+    try {
+        const allStages = await stageModel.getAllStages();
+        res.json(allStages);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+});
+
 app.post('/stage', async (req, res) => {
     try {
         const createdStage = await stageModel.createStage(req.body);
@@ -339,7 +449,25 @@ app.delete('/stage/:no_stage', async (req, res) => {
 });
 
 
+
+
+
+
+
+
+
+
 // Annee Endpoints
+app.get('/annee', async (req, res) => {
+    try {
+        const allAnnees = await anneeModel.getAllAnnees();
+        res.json(allAnnees);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+});
+
 app.post('/annee', async (req, res) => {
     try {
         const createdAnnee = await anneeModel.createAnnee(req.body);
@@ -393,7 +521,23 @@ app.delete('/annee/:annee', async (req, res) => {
 });
 
 
+
+
+
+
+
+
 // Competence Endpoints
+app.get('/competence', async (req, res) => {
+    try {
+        const allCompetences = await competenceModel.getAllCompetences();
+        res.json(allCompetences);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+});
+
 app.post('/competence', async (req, res) => {
     try {
         const createdCompetence = await competenceModel.createCompetence(req.body);
@@ -447,7 +591,26 @@ app.delete('/competence/:no_competence', async (req, res) => {
 });
 
 
+
+
+
+
+
+
+
+
+
 // Promotion Endpoints
+app.get('/promotion', async (req, res) => {
+    try {
+        const allPromotions = await promotionModel.getAllPromotions();
+        res.json(allPromotions);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+});
+
 app.post('/promotion', async (req, res) => {
     try {
         const createdPromotion = await promotionModel.createPromotion(req.body);
@@ -501,7 +664,24 @@ app.delete('/promotion/:annee_promotion', async (req, res) => {
 });
 
 
+
+
+
+
+
+
+
 // Exiger Endpoints
+app.get('/exiger', async (req, res) => {
+    try {
+        const allExiger = await exigerModel.getAllExiger();
+        res.json(allExiger);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+});
+
 app.post('/exiger', async (req, res) => {
     try {
         const createdExiger = await exigerModel.createExiger(req.body);
@@ -555,7 +735,20 @@ app.delete('/exiger/:no_type/:no_competence', async (req, res) => {
 });
 
 
+
+
+
 // Associer Endpoints
+app.get('/associer', async (req, res) => {
+    try {
+        const allAssocier = await associerModel.getAllAssocier();
+        res.json(allAssocier);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+});
+
 app.post('/associer', async (req, res) => {
     try {
         const createdAssocier = await associerModel.createAssocier(req.body);

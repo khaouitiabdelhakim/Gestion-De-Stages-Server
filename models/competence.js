@@ -54,9 +54,20 @@ async function deleteCompetence(no_competence) {
   }
 }
 
+async function getAllCompetences() {
+    const client = await pool.connect();
+    try {
+      const result = await client.query('SELECT * FROM public.competence');
+      return result.rows;
+    } finally {
+      client.release();
+    }
+  }
+
 module.exports = {
   createCompetence,
   getCompetenceById,
   updateCompetence,
   deleteCompetence,
+  getAllCompetences
 };

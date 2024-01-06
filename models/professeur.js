@@ -8,6 +8,16 @@ const pool = new Pool({
   port: 5432,
 });
 
+async function getAllProfesseurs() {
+    const client = await pool.connect();
+    try {
+      const result = await client.query('SELECT * FROM public.professeur');
+      return result.rows;
+    } finally {
+      client.release();
+    }
+  }
+
 async function createProfesseur(professeurData) {
   const client = await pool.connect();
   try {
@@ -80,4 +90,5 @@ module.exports = {
   getProfesseurById,
   updateProfesseur,
   deleteProfesseur,
+  getAllProfesseurs
 };

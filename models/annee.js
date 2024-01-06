@@ -48,9 +48,21 @@ async function deleteAnnee(annee) {
   }
 }
 
+
+async function getAllAnnees() {
+    const client = await pool.connect();
+    try {
+      const result = await client.query('SELECT * FROM public.annee');
+      return result.rows;
+    } finally {
+      client.release();
+    }
+  }
+
 module.exports = {
   createAnnee,
   getAnneeById,
   updateAnnee,
   deleteAnnee,
+  getAllAnnees
 };

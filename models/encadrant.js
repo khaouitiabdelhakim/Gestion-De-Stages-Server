@@ -60,9 +60,20 @@ async function deleteEncadrant(no_encadrant) {
   }
 }
 
+async function getAllEncadrants() {
+    const client = await pool.connect();
+    try {
+      const result = await client.query('SELECT * FROM public.encadrant');
+      return result.rows;
+    } finally {
+      client.release();
+    }
+  }
+
 module.exports = {
   createEncadrant,
   getEncadrantById,
   updateEncadrant,
   deleteEncadrant,
+  getAllEncadrants
 };

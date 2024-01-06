@@ -54,9 +54,21 @@ async function deleteExiger(no_type, no_competence) {
   }
 }
 
+
+async function getAllExiger() {
+    const client = await pool.connect();
+    try {
+      const result = await client.query('SELECT * FROM public.exiger');
+      return result.rows;
+    } finally {
+      client.release();
+    }
+  }
+
 module.exports = {
   createExiger,
   getExigerById,
   updateExiger,
   deleteExiger,
+  getAllExiger
 };

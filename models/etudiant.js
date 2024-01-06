@@ -8,6 +8,16 @@ const pool = new Pool({
   port: 5432,
 });
 
+async function getAllEtudiants() {
+    const client = await pool.connect();
+    try {
+      const result = await client.query('SELECT * FROM public.etudiant');
+      return result.rows;
+    } finally {
+      client.release();
+    }
+  }
+
 // Create
 async function createEtudiant(etudiantData) {
   const client = await pool.connect();
@@ -84,4 +94,5 @@ module.exports = {
   getEtudiantById,
   updateEtudiant,
   deleteEtudiant,
+  getAllEtudiants,
 };
