@@ -1,11 +1,13 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors'); // Import the cors middleware
+const { Pool } = require('pg');
 
 const etudiantModel = require('./models/etudiant');
 const professeurModel = require('./models/professeur');
 const encadrantModel = require('./models/encadrant');
 const entrepriseModel = require('./models/entreprise');
+const mainModel = require('./models/main');
 const typeModel = require('./models/type');
 const stageModel = require('./models/stage');
 const anneeModel = require('./models/annee');
@@ -14,6 +16,14 @@ const promotionModel = require('./models/promotion');
 const exigerModel = require('./models/exiger');
 const associerModel = require('./models/associer');
 
+const pool = new Pool({
+    user: 'postgres',
+    host: 'localhost',
+    database: 'stage',
+    password: 'khaouitipostgresql',
+    port: 5432,
+});
+
 const app = express();
 const port = 3500;
 
@@ -21,6 +31,89 @@ app.use(bodyParser.json());
 app.use(cors()); // Enable CORS for all routes
 
 // Etudiant Endpoints
+
+
+//general endpoints
+
+app.get('/stage/types', async (req, res) => {
+    try {
+        const client = await pool.connect();
+
+        const result = await client.query(`
+            SELECT no_type, COUNT(*) AS count
+            FROM public.stage
+            GROUP BY no_type
+        `);
+
+        const stageCounts = {};
+        result.rows.forEach((row) => {
+            stageCounts[row.no_type] = row.count;
+        });
+
+        res.json(stageCounts);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+});
+
+app.get('/stage/recent', async (req, res) => {
+    try {
+        const getRecentStages = await mainModel.getRecentStages();
+        res.json(getRecentStages);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Internal Server Error recent stages' });
+    }
+});
+
+app.get('/stage/entreprise', async (req, res) => {
+    try {
+        const getRecentStages = await mainModel.getTopEnterpriseByStageCount();
+        res.json(getRecentStages);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Internal Server Error recent stages' });
+    }
+});
+
+app.get('/stage/percentage-completed', async (req, res) => {
+
+    const client = await pool.connect();
+    try {
+        const result = await client.query(`
+            SELECT
+                COUNT(CASE WHEN s.appreciation_stage IS NOT NULL THEN 1 END) AS students_completed,
+                COUNT(e.no_etudiant) AS total_students,
+                (COUNT(CASE WHEN s.appreciation_stage IS NOT NULL THEN 1 END) * 100.0 / COUNT(e.no_etudiant)) AS percentage_completed
+            FROM public.etudiant e
+            LEFT JOIN public.stage s ON e.no_etudiant = s.no_etudiant;
+        `);
+
+        res.json(result.rows[0]);
+    } finally {
+        client.release();
+    }
+
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 // Get all Etudiants
 app.get('/etudiant', async (req, res) => {

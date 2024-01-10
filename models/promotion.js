@@ -3,7 +3,7 @@ const { Pool } = require('pg');
 const pool = new Pool({
   user: 'postgres',
   host: 'localhost',
-  database: 'stage_test',
+  database: 'stage',
   password: 'khaouitipostgresql',
   port: 5432,
 });
@@ -57,7 +57,7 @@ async function deletePromotion(annee_promotion) {
 async function getAllPromotions() {
     const client = await pool.connect();
     try {
-      const result = await client.query('SELECT * FROM public.promotion');
+      const result = await client.query('SELECT * FROM public.promotion ORDER BY annee_promotion DESC ');
       return result.rows;
     } finally {
       client.release();

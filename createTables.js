@@ -4,7 +4,7 @@ const { Pool } = require('pg');
 const pool = new Pool({
   user: 'postgres',
   host: 'localhost',
-  database: 'stage_test',
+  database: 'stage',
   password: 'khaouitipostgresql',
   port: 5432, // Your PostgreSQL port
 });
@@ -31,8 +31,8 @@ async function createTables() {
         date_naissance_etudiant   DATE   ,
         sexe_etudiant             BOOL   ,
         adresse_etudiant          VARCHAR (250)  ,
-        telephone_etudiant        VARCHAR (20)  ,
-        email_etudiant            VARCHAR (20)  ,
+        telephone_etudiant        VARCHAR (250)  ,
+        email_etudiant            VARCHAR (250)  ,
         annee_promotion           INTEGER   ,
         mention_etudiant          VARCHAR (2000)  ,
         CONSTRAINT etudiant_PK PRIMARY KEY (no_etudiant)
@@ -75,13 +75,13 @@ async function createTables() {
     ------------------------------------------------------------
     CREATE TABLE public.entreprise(
         no_entreprise                  SERIAL NOT NULL ,
-        nom_entreprise                 VARCHAR (50)  ,
-        forme_juridique                VARCHAR (50) ,
+        nom_entreprise                 VARCHAR (250)  ,
+        forme_juridique                VARCHAR (250) ,
         telephone_contact_entreprise   VARCHAR (50) NOT NULL ,
         adresse_entreprise             VARCHAR (250)  ,
         telephone_entreprise           VARCHAR (50)  ,
         fax_entreprise                 VARCHAR (50)  ,
-        contact_entreprise             VARCHAR (50)  ,
+        contact_entreprise             VARCHAR (250)  ,
         CONSTRAINT entreprise_PK PRIMARY KEY (no_entreprise)
     )WITHOUT OIDS;
     
