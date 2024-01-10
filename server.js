@@ -15,7 +15,7 @@ const exigerModel = require('./models/exiger');
 const associerModel = require('./models/associer');
 
 const app = express();
-const port = 3000;
+const port = 3500;
 
 app.use(bodyParser.json());
 app.use(cors()); // Enable CORS for all routes
@@ -42,6 +42,8 @@ app.post('/etudiant', async (req, res) => {
         res.status(500).json({ error: 'Internal Server Error' });
     }
 });
+
+
 
 app.get('/etudiant/:no_etudiant', async (req, res) => {
     try {

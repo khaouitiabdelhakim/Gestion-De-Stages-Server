@@ -25,7 +25,7 @@ async function createProfesseur(professeurData) {
       'INSERT INTO public.professeur (sexe_professeur, date_emauche_professeur, date_depart_professeur, prenom_professeur, date_naissance_professeur, telephone_professeur, email_professeur, nom_professeur, adresse_professeur) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING *',
       [
         professeurData.sexe_professeur,
-        professeurData.date_emauche_professeur,
+        professeurData.date_embauche_professeur,
         professeurData.date_depart_professeur,
         professeurData.prenom_professeur,
         professeurData.date_naissance_professeur,
