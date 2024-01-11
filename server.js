@@ -1,9 +1,9 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors'); // Import the cors middleware
-const { Pool } = require('pg');
 const bcrypt = require('bcrypt');
 const saltRounds = 10; // Number of salt rounds for password hashing
+
 
 const etudiantModel = require('./models/etudiant');
 const professeurModel = require('./models/professeur');
@@ -18,13 +18,9 @@ const promotionModel = require('./models/promotion');
 const exigerModel = require('./models/exiger');
 const associerModel = require('./models/associer');
 
-const pool = new Pool({
-    user: 'postgres',
-    host: 'localhost',
-    database: 'stage',
-    password: 'khaouitipostgresql',
-    port: 5432,
-});
+
+
+const pool = require('./pool');
 
 const app = express();
 const port = 3500;

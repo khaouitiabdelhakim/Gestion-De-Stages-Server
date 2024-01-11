@@ -1,12 +1,5 @@
-const { Pool } = require('pg');
+const { pool } = require('../pool');
 
-const pool = new Pool({
-  user: 'postgres',
-  host: 'localhost',
-  database: 'stage',
-  password: 'khaouitipostgresql',
-  port: 5432,
-});
 
 async function createStage(stageData) {
   const client = await pool.connect();
