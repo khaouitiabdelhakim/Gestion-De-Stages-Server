@@ -2,6 +2,8 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors'); // Import the cors middleware
 const { Pool } = require('pg');
+const bcrypt = require('bcrypt');
+const saltRounds = 10; // Number of salt rounds for password hashing
 
 const etudiantModel = require('./models/etudiant');
 const professeurModel = require('./models/professeur');
@@ -30,7 +32,96 @@ const port = 3500;
 app.use(bodyParser.json());
 app.use(cors()); // Enable CORS for all routes
 
-// Etudiant Endpoints
+// Authentication Endpoints
+
+// Sign Up
+app.post('/signup', async (req, res) => {
+    const { username, email, password, nom, prenom, telephone } = req.body;
+
+    try {
+        // Check if username or email already exists
+        const userExistsQuery = 'SELECT * FROM public."user" WHERE username = $1 OR email = $2';
+        const userExistsResult = await pool.query(userExistsQuery, [username, email]);
+
+        if (userExistsResult.rows.length > 0) {
+            return res.status(409).json({ error: 'Username or email already exists' });
+        }
+
+        // Hash the password
+        const hashedPassword = await bcrypt.hash(password, saltRounds);
+
+        // Store the user in the database with additional fields
+        const insertUserQuery = `
+            INSERT INTO public."user" (username, email, password, nom, prenom, telephone)
+            VALUES ($1, $2, $3, $4, $5, $6)
+        `;
+        await pool.query(insertUserQuery, [username, email, hashedPassword, nom, prenom, telephone]);
+
+        res.status(201).json({ message: 'User created successfully' });
+    } catch (error) {
+        console.error('Error during sign up:', error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+});
+
+
+// Sign In
+app.post('/signin', async (req, res) => {
+    const { username, email, password } = req.body;
+
+    try {
+        // Find the user by username or email
+        const getUserQuery = 'SELECT * FROM public."user" WHERE username = $1 OR email = $2';
+        const userResult = await pool.query(getUserQuery, [username, email]);
+        const user = userResult.rows[0];
+
+        if (!user) {
+            return res.status(401).json({ error: 'User not found' });
+        }
+
+        // Compare the provided password with the hashed password
+        const match = await bcrypt.compare(password, user.password);
+
+        if (!match) {
+            return res.status(401).json({ error: 'Invalid password' });
+        }
+
+        res.json({ message: 'Sign in successful' });
+    } catch (error) {
+        console.error('Error during sign in:', error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+});
+
+
+
+// Add this endpoint after your other routes
+
+app.get('/user', async (req, res) => {
+
+    const client = await pool.connect();
+    try {
+        // Query to get a single user with LIMIT 1
+        const result = await client.query(`
+            SELECT * FROM public."user"
+            LIMIT 1
+        `);
+
+        const user = result.rows[0];
+
+        res.json(user);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    } finally {
+        client.release();
+    }
+});
+
+
+
+
+
 
 
 //general endpoints
