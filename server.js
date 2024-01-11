@@ -20,7 +20,7 @@ const associerModel = require('./models/associer');
 
 
 
-const pool = require('./pool');
+const {pool} = require('./pool');
 
 const app = express();
 const port = 3500;
