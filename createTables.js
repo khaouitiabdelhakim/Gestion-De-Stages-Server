@@ -1,13 +1,4 @@
-const { Pool } = require('pg');
-
-// Replace these values with your PostgreSQL connection details
-const pool = new Pool({
-  user: 'postgres',
-  host: 'localhost',
-  database: 'stage',
-  password: 'khaouitipostgresql',
-  port: 5432, // Your PostgreSQL port
-});
+const { pool } = require('./pool');
 
 async function createTables() {
   const client = await pool.connect();
