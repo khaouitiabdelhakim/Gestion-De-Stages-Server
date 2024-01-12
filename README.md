@@ -45,10 +45,10 @@ This is the backend server for the Internship Management Web App, responsible fo
 
 - Update the `.env` file with your database connection details and any other configuration parameters.
    ```plaintext
-     DB_USER=postgres
+     DB_USER=your_username
      DB_HOST=localhost
-     DB_DATABASE=stage
-     DB_PASSWORD=khaouitipostgresql
+     DB_DATABASE=your_database_name
+     DB_PASSWORD=your_password
      DB_PORT=5432
      ```
 
