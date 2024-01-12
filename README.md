@@ -1,5 +1,7 @@
 # Internship Management Web App - Backend
 
+![alt text](https://github.com/khaouitiabdelhakim/Gestion-De-Stages-Client/blob/main/stage.png)
+
 This is the backend server for the Internship Management Web App, responsible for handling data storage, authentication, and communication with the frontend.
 
 ## Technologies Used
