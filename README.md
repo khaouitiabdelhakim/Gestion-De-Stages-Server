@@ -58,7 +58,7 @@ This is the backend server for the Internship Management Web App, responsible fo
 This project is licensed under the MIT License 
 
 ```
-Copyright 2024 KHAOUITI ABDELHAKIM
+Copyright 2024 KHAOUITI ABDELHAKIM, BENGMAH AnassEL, ARGOUBI El Mehdi
 
 Licensed under the MIT License
 You may obtain a copy of the License at
